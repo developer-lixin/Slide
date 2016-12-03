@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8 ">
+		<title></title>
+		<style>
+			ul {
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			input {
+				margin: 0;
+				padding: 0;
+				outline: none;
+			}
+			#box {
+				width: 600px;
+				height: 330px;
+				position: relative;
+				margin: 30px auto;
+				overflow: hidden;
+			}
+			#box #list {
+				width: 2400px;
+				position: absolute;
+				left: 0;
+				top: 0;
+				transition: .5s;
+			}
+			#list li {
+				float: left;
+			}
+			#list img {
+				width: 600px;
+				height: 330px;
+				
+			}
+			.navs {
+				width: 160px;
+				height: 40px;
+				padding: 0 220px;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				text-align: center;
+				background: #000;
+				opacity: .7;
+			}
+			.navs a {
+				float: left;
+				width: 40px;
+				font: 16px/40px "宋体";
+				text-decoration: none;
+				color: #000;
+				background: #fff;
+				border-radius: 50px;
+				transform: scale(.7);
+			}
+			.navs .active {
+				background: #ADFF2F;
+			}
+			input {
+				width: 50px;
+				height: 50px;
+				border: none;
+				font: 24px/50px "宋体";
+				color: #fff;
+				background: #000;
+				opacity: .6;
+				z-index: 2;
+			}
+			#btn1 {
+				position: absolute;
+				left: 0;
+				top: 140px;
+			}
+			#btn2 {
+				position: absolute;
+				right: 0;
+				top: 140px;
+			}
+		</style>
+		<script>
+			function css(el,attr){
+				if(el.currentStyle) {
+					return el.currentStyle[attr];	
+				} else {
+					return getComputedStyle(el)[attr];
+				}
+			}
+			window.onload = function() {
+				var box = document.querySelector("#box");
+				var navs = document.querySelectorAll('.navs a');
+				var list = document.getElementById('list');
+				var li = document.querySelector('li');
+				var imgW = parseFloat(css(li,"width"));
+				//var navsW = parseFloat(css(navs,"width"));
+				//console.log(navsW)
+				var inputs = document.getElementsByTagName('input');
+				var now = 0;
+				var timer = 0;
+				timer = setInterval(next,2000);
+				for(var i = 0; i < navs.length; i++) {
+					navs[i].index = i;
+					navs[i].onmouseover = function() {
+						now = this.index;
+						for(var i = 0; i < navs.length; i++) {
+							navs[i].className = "";
+						}
+						tab();
+					};
+				}
+				inputs[0].onclick = prev;
+				function prev() {
+						navs[now].className = "";
+						now--;
+						if(now < 0) {
+							now = navs.length-1;
+						}
+						tab();
+					};
+				inputs[1].onclick = next;
+				function next() {
+					navs[now].className = "";
+					now++;
+					if(now > navs.length-1) {
+						now = 0;
+					}
+					tab();
+				};
+				box.onmouseover = function() {
+					clearInterval(timer);
+				};
+				box.onmouseout = function() {
+					timer = setInterval(next,2000);
+				};
+				function tab() {
+					navs[now].className = "active";
+					list.style.left = -imgW*now + "px";
+				}
+			};
+		</script>
+	</head>
+	<body>
+		<div id="box">
+			<ul id="list">
+				<li>
+					<img src="../img/img5.gif" />
+				</li>
+				<li>
+					<img src="../img/img6.gif" />
+				</li>
+				<li>
+					<img src="../img/img7.gif" />
+				</li>
+				<li>
+					<img src="../img/img8.gif" />
+				</li>
+			</ul>
+			<nav class="navs">
+				<a href="javaScript:;" class="active">1</a>
+				<a href="javaScript:;">2</a>
+				<a href="javaScript:;">3</a>
+				<a href="javaScript:;">4</a>
+			</nav>
+			<input type="button" value="<" id="btn1"/>
+			<input type="button" value=">" id="btn2"/>
+		</div>
+	
+	</body>
+</html>
